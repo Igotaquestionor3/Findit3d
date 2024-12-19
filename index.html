@@ -1,105 +1,76 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>3D Spinning Cube</title>
-    <style>
-        body { margin: 0; overflow: hidden; background: #222; }
-        #container { width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;} /* Center the cube */
-        #cube-container {
-            width: 200px;
-            height: 200px;
-            perspective: 1000px;
-            position: relative; /* Needed for proper positioning of the cube */
-        }
-        #cube {
-            width: 100%;
-            height: 100%;
-            position: absolute; /* Crucial for 3D transforms to work correctly */
-            transform-style: preserve-3d;
-            animation: rotate 10s linear infinite;
-        }
-        .face {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 123, 255, 0.7);
-            border: 1px solid #007bff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 2em;
-            color: white;
-            opacity: 0.8;
-        }
+<title>Rotating Square</title>
+<style>
+body {
+    background-color: #222; /* Dark background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Ensure full viewport height */
+    margin: 0;
+    overflow: hidden; /* Prevent scrollbars */
+}
 
-        /* Corrected face positioning using half values */
-        .front  { transform: translateZ(100px); }
-        .back   { transform: rotateY(180deg) translateZ(100px); }
-        .right  { transform: rotateY(90deg) translateZ(100px); }
-        .left   { transform: rotateY(-90deg) translateZ(100px); }
-        .top    { transform: rotateX(90deg) translateZ(100px); }
-        .bottom { transform: rotateX(-90deg) translateZ(100px); }
+#square-container {
+    position: relative; /* For positioning the square */
+}
 
-        @keyframes rotate {
-            from { transform: rotateY(0deg); }
-            to { transform: rotateY(360deg); }
-        }
+#square {
+    width: 200px;
+    height: 200px;
+    background-color: rgba(0, 123, 255, 0.7);
+    border: 2px solid #007bff;
+    position: relative; /* Needed for transforms */
+    animation: rotate 5s linear infinite; /* Rotation animation */
+    transform-origin: center; /* Rotate around the center */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 2em;
+}
 
-        #controls {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            background: rgba(0, 0, 0, 0.5);
-            padding: 10px;
-            border-radius: 5px;
-            color: white;
-        }
-    </style>
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+#controls {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    border-radius: 5px;
+    color: white;
+}
+</style>
 </head>
 <body>
-    <div id="container">
-        <div id="cube-container">
-            <div id="cube">
-                <div class="face front">Front</div>
-                <div class="face back">Back</div>
-                <div class="face right">Right</div>
-                <div class="face left">Left</div>
-                <div class="face top">Top</div>
-                <div class="face bottom">Bottom</div>
-            </div>
-        </div>
 
-        <div id="controls">
-            Width: <input type="number" id="width" value="200"><br>
-            Height: <input type="number" id="height" value="200"><br>
-            Depth: <input type="number" id="depth" value="200"><br>
-            <button onclick="updateCube()">Update Cube</button>
-        </div>
-    </div>
+<div id="square-container">
+    <div id="square">Square</div>
+</div>
 
-    <script>
-        function updateCube() {
-            const width = parseInt(document.getElementById('width').value); // Parse as integer
-            const height = parseInt(document.getElementById('height').value);
-            const depth = parseInt(document.getElementById('depth').value);
+<div id="controls">
+    Size: <input type="range" id="size-slider" min="50" max="400" value="200" step="10">
+    <span id="size-value">200</span>
+</div>
 
-            const cube = document.getElementById('cube');
-            const faces = cube.querySelectorAll('.face');
+<script>
+    const square = document.getElementById('square');
+    const sizeSlider = document.getElementById('size-slider');
+    const sizeValue = document.getElementById('size-value');
 
-            const halfWidth = width / 2;
-            const halfHeight = height / 2;
-            const halfDepth = depth / 2;
+    sizeSlider.addEventListener('input', function() {
+        const size = this.value;
+        square.style.width = size + 'px';
+        square.style.height = size + 'px';
+        sizeValue.textContent = size;
+    });
+</script>
 
-            cube.style.width = width + "px";
-            cube.style.height = height + "px";
-
-            faces[0].style.transform = `translateZ(${halfDepth}px)`;
-            faces[1].style.transform = `rotateY(180deg) translateZ(${halfDepth}px)`;
-            faces[2].style.transform = `rotateY(90deg) translateZ(${halfDepth}px)`;
-            faces[3].style.transform = `rotateY(-90deg) translateZ(${halfDepth}px)`;
-            faces[4].style.transform = `rotateX(90deg) translateZ(${halfHeight}px)`;
-            faces[5].style.transform = `rotateX(-90deg) translateZ(${halfHeight}px)`;
-        }
-    </script>
 </body>
 </html>
