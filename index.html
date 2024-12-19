@@ -4,25 +4,25 @@
     <title>3D Spinning Cube</title>
     <style>
         body { margin: 0; overflow: hidden; background: #222; }
-        #container { width: 100%; height: 100%; }
+        #container { width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;} /* Center the cube */
         #cube-container {
             width: 200px;
             height: 200px;
-            margin: 100px auto;
-            perspective: 1000px; /* Creates the 3D effect */
+            perspective: 1000px;
+            position: relative; /* Needed for proper positioning of the cube */
         }
         #cube {
             width: 100%;
             height: 100%;
-            position: relative;
-            transform-style: preserve-3d; /* Important for 3D transforms */
-            animation: rotate 10s linear infinite; /* Animation for spinning */
+            position: absolute; /* Crucial for 3D transforms to work correctly */
+            transform-style: preserve-3d;
+            animation: rotate 10s linear infinite;
         }
         .face {
             position: absolute;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 123, 255, 0.7); /* Semi-transparent blue */
+            background-color: rgba(0, 123, 255, 0.7);
             border: 1px solid #007bff;
             display: flex;
             justify-content: center;
@@ -31,6 +31,8 @@
             color: white;
             opacity: 0.8;
         }
+
+        /* Corrected face positioning using half values */
         .front  { transform: translateZ(100px); }
         .back   { transform: rotateY(180deg) translateZ(100px); }
         .right  { transform: rotateY(90deg) translateZ(100px); }
@@ -77,9 +79,9 @@
 
     <script>
         function updateCube() {
-            const width = document.getElementById('width').value;
-            const height = document.getElementById('height').value;
-            const depth = document.getElementById('depth').value;
+            const width = parseInt(document.getElementById('width').value); // Parse as integer
+            const height = parseInt(document.getElementById('height').value);
+            const depth = parseInt(document.getElementById('depth').value);
 
             const cube = document.getElementById('cube');
             const faces = cube.querySelectorAll('.face');
@@ -88,17 +90,15 @@
             const halfHeight = height / 2;
             const halfDepth = depth / 2;
 
-             cube.style.width = width + "px";
-             cube.style.height = height + "px";
+            cube.style.width = width + "px";
+            cube.style.height = height + "px";
 
-            faces[0].style.transform = `translateZ(${halfDepth}px)`; //front
-            faces[1].style.transform = `rotateY(180deg) translateZ(${halfDepth}px)`; //back
-            faces[2].style.transform = `rotateY(90deg) translateZ(${halfDepth}px)`; //right
-            faces[3].style.transform = `rotateY(-90deg) translateZ(${halfDepth}px)`; //left
-            faces[4].style.transform = `rotateX(90deg) translateZ(${halfHeight}px)`; //top
-            faces[5].style.transform = `rotateX(-90deg) translateZ(${halfHeight}px)`; //bottom
-
-
+            faces[0].style.transform = `translateZ(${halfDepth}px)`;
+            faces[1].style.transform = `rotateY(180deg) translateZ(${halfDepth}px)`;
+            faces[2].style.transform = `rotateY(90deg) translateZ(${halfDepth}px)`;
+            faces[3].style.transform = `rotateY(-90deg) translateZ(${halfDepth}px)`;
+            faces[4].style.transform = `rotateX(90deg) translateZ(${halfHeight}px)`;
+            faces[5].style.transform = `rotateX(-90deg) translateZ(${halfHeight}px)`;
         }
     </script>
 </body>
