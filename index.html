@@ -1,15 +1,105 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>My Website</title>
+    <title>3D Spinning Cube</title>
     <style>
-    body {
-        background-color: lightblue;
-    }
+        body { margin: 0; overflow: hidden; background: #222; }
+        #container { width: 100%; height: 100%; }
+        #cube-container {
+            width: 200px;
+            height: 200px;
+            margin: 100px auto;
+            perspective: 1000px; /* Creates the 3D effect */
+        }
+        #cube {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d; /* Important for 3D transforms */
+            animation: rotate 10s linear infinite; /* Animation for spinning */
+        }
+        .face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 123, 255, 0.7); /* Semi-transparent blue */
+            border: 1px solid #007bff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2em;
+            color: white;
+            opacity: 0.8;
+        }
+        .front  { transform: translateZ(100px); }
+        .back   { transform: rotateY(180deg) translateZ(100px); }
+        .right  { transform: rotateY(90deg) translateZ(100px); }
+        .left   { transform: rotateY(-90deg) translateZ(100px); }
+        .top    { transform: rotateX(90deg) translateZ(100px); }
+        .bottom { transform: rotateX(-90deg) translateZ(100px); }
+
+        @keyframes rotate {
+            from { transform: rotateY(0deg); }
+            to { transform: rotateY(360deg); }
+        }
+
+        #controls {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            border-radius: 5px;
+            color: white;
+        }
     </style>
 </head>
 <body>
-    <h1>Welcome to my website!</h1>
-    <p>This is some content.</p>
+    <div id="container">
+        <div id="cube-container">
+            <div id="cube">
+                <div class="face front">Front</div>
+                <div class="face back">Back</div>
+                <div class="face right">Right</div>
+                <div class="face left">Left</div>
+                <div class="face top">Top</div>
+                <div class="face bottom">Bottom</div>
+            </div>
+        </div>
+
+        <div id="controls">
+            Width: <input type="number" id="width" value="200"><br>
+            Height: <input type="number" id="height" value="200"><br>
+            Depth: <input type="number" id="depth" value="200"><br>
+            <button onclick="updateCube()">Update Cube</button>
+        </div>
+    </div>
+
+    <script>
+        function updateCube() {
+            const width = document.getElementById('width').value;
+            const height = document.getElementById('height').value;
+            const depth = document.getElementById('depth').value;
+
+            const cube = document.getElementById('cube');
+            const faces = cube.querySelectorAll('.face');
+
+            const halfWidth = width / 2;
+            const halfHeight = height / 2;
+            const halfDepth = depth / 2;
+
+             cube.style.width = width + "px";
+             cube.style.height = height + "px";
+
+            faces[0].style.transform = `translateZ(${halfDepth}px)`; //front
+            faces[1].style.transform = `rotateY(180deg) translateZ(${halfDepth}px)`; //back
+            faces[2].style.transform = `rotateY(90deg) translateZ(${halfDepth}px)`; //right
+            faces[3].style.transform = `rotateY(-90deg) translateZ(${halfDepth}px)`; //left
+            faces[4].style.transform = `rotateX(90deg) translateZ(${halfHeight}px)`; //top
+            faces[5].style.transform = `rotateX(-90deg) translateZ(${halfHeight}px)`; //bottom
+
+
+        }
+    </script>
 </body>
 </html>
