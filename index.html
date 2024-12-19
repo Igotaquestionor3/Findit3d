@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Angled Square</title>
+    <title>Angled Square with Z-Axis Extension</title>
     <style>
         body {
             background-color: #222;
@@ -11,10 +11,12 @@
             min-height: 100vh;
             margin: 0;
             overflow: hidden;
+            perspective: 1000px; /* Add perspective for 3D effect */
         }
 
-        #square-container {
+        #container {
             position: relative;
+            transform-style: preserve-3d; /* Important for 3D transforms */
         }
 
         #square {
@@ -22,13 +24,33 @@
             height: 200px;
             background-color: rgba(0, 123, 255, 0.7);
             border: 2px solid #007bff;
-            transform-origin: center; /* Important for scaling from the center */
-            transform: rotateX(60deg) rotateZ(45deg); /* Isometric-like projection */
+            transform-origin: center bottom; /* Rotate from bottom center */
+            transform: rotateX(60deg) rotateZ(45deg);
+            position: relative; /* For positioning the extensions */
             display: flex;
             justify-content: center;
             align-items: center;
             color: white;
             font-size: 2em;
+        }
+
+        .extension {
+            position: absolute;
+            width: 20px; /* Width of the extensions */
+            background-color: rgba(0, 123, 255, 0.5); /* Slightly darker */
+            border: 1px solid #007bff;
+        }
+        .left-extension{
+            left: 0;
+            bottom: 0;
+            transform-origin: top;
+            transform: rotateX(-60deg);
+        }
+        .right-extension{
+            right: 0;
+            bottom: 0;
+            transform-origin: top;
+            transform: rotateX(-60deg);
         }
 
         #controls {
@@ -43,26 +65,38 @@
     </style>
 </head>
 <body>
-
-    <div id="square-container">
-        <div id="square">Square</div>
+    <div id = "container">
+    <div id="square">Square
+        <div class="extension left-extension"></div>
+        <div class="extension right-extension"></div>
     </div>
-
+    </div>
     <div id="controls">
-        Size: <input type="range" id="size-slider" min="50" max="400" value="200" step="10">
-        <span id="size-value">200</span>
+        Size: <input type="range" id="size-slider" min="50" max="400" value="200" step="10"><span id="size-value">200</span><br>
+        Z-Axis: <input type="range" id="z-slider" min="0" max="200" value="0" step="10"><span id="z-value">0</span>
     </div>
 
     <script>
         const square = document.getElementById('square');
         const sizeSlider = document.getElementById('size-slider');
         const sizeValue = document.getElementById('size-value');
+        const zSlider = document.getElementById('z-slider');
+        const zValue = document.getElementById('z-value');
+        const leftExtension = document.querySelector(".left-extension");
+        const rightExtension = document.querySelector(".right-extension");
 
         sizeSlider.addEventListener('input', function() {
             const size = this.value;
             square.style.width = size + 'px';
             square.style.height = size + 'px';
             sizeValue.textContent = size;
+        });
+
+        zSlider.addEventListener('input', function() {
+            const zHeight = this.value;
+            leftExtension.style.height = zHeight + "px";
+            rightExtension.style.height = zHeight + "px";
+            zValue.textContent = zHeight;
         });
     </script>
 
