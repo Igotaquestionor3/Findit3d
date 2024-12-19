@@ -1,76 +1,70 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Rotating Square</title>
-<style>
-body {
-    background-color: #222; /* Dark background */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh; /* Ensure full viewport height */
-    margin: 0;
-    overflow: hidden; /* Prevent scrollbars */
-}
+    <title>Angled Square</title>
+    <style>
+        body {
+            background-color: #222;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
 
-#square-container {
-    position: relative; /* For positioning the square */
-}
+        #square-container {
+            position: relative;
+        }
 
-#square {
-    width: 200px;
-    height: 200px;
-    background-color: rgba(0, 123, 255, 0.7);
-    border: 2px solid #007bff;
-    position: relative; /* Needed for transforms */
-    animation: rotate 5s linear infinite; /* Rotation animation */
-    transform-origin: center; /* Rotate around the center */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    font-size: 2em;
-}
+        #square {
+            width: 200px;
+            height: 200px;
+            background-color: rgba(0, 123, 255, 0.7);
+            border: 2px solid #007bff;
+            transform-origin: center; /* Important for scaling from the center */
+            transform: rotateX(60deg) rotateZ(45deg); /* Isometric-like projection */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 2em;
+        }
 
-@keyframes rotate {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
-
-#controls {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    background: rgba(0, 0, 0, 0.5);
-    padding: 10px;
-    border-radius: 5px;
-    color: white;
-}
-</style>
+        #controls {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            border-radius: 5px;
+            color: white;
+        }
+    </style>
 </head>
 <body>
 
-<div id="square-container">
-    <div id="square">Square</div>
-</div>
+    <div id="square-container">
+        <div id="square">Square</div>
+    </div>
 
-<div id="controls">
-    Size: <input type="range" id="size-slider" min="50" max="400" value="200" step="10">
-    <span id="size-value">200</span>
-</div>
+    <div id="controls">
+        Size: <input type="range" id="size-slider" min="50" max="400" value="200" step="10">
+        <span id="size-value">200</span>
+    </div>
 
-<script>
-    const square = document.getElementById('square');
-    const sizeSlider = document.getElementById('size-slider');
-    const sizeValue = document.getElementById('size-value');
+    <script>
+        const square = document.getElementById('square');
+        const sizeSlider = document.getElementById('size-slider');
+        const sizeValue = document.getElementById('size-value');
 
-    sizeSlider.addEventListener('input', function() {
-        const size = this.value;
-        square.style.width = size + 'px';
-        square.style.height = size + 'px';
-        sizeValue.textContent = size;
-    });
-</script>
+        sizeSlider.addEventListener('input', function() {
+            const size = this.value;
+            square.style.width = size + 'px';
+            square.style.height = size + 'px';
+            sizeValue.textContent = size;
+        });
+    </script>
 
 </body>
 </html>
